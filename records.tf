@@ -13,7 +13,7 @@ locals {
 }
 
 resource "cloudflare_record" "records" {
-  zone_id = data.cloudflare_zones.zone.zones[0].id
+  zone_id = data.cloudflare_zones.zone[0].zones[0].id
   for_each = {
     for item in local.normalized_record_configs : item["resource_name"] => item
   }

@@ -1,9 +1,13 @@
 locals {
-  normalize_page_rule_configs = { for item in var.page_rule_configs : item["target"] => item }
+  normalize_page_rule_configs = { for idx, item in var.page_rule_configs : item["target"] => merge(
+    item,
+    {
+      priority = length(var.page_rule_configs) - idx
+  }) }
 }
 
 resource "cloudflare_page_rule" "page_rules" {
-  zone_id  = data.cloudflare_zones.zone.zones[0].id
+  zone_id  = data.cloudflare_zones.zone[0].zones[0].id
   for_each = local.normalize_page_rule_configs
   target   = each.value["target"]
 

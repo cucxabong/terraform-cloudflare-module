@@ -13,7 +13,7 @@ locals {
 }
 
 resource "cloudflare_access_rule" "access_rule" {
-  zone_id = data.cloudflare_zones.zone.zones[0].id
+  zone_id = length(var.zone_name) > 0 ? data.cloudflare_zones.zone[0].zones[0].id : null
   for_each = {
     for item in local.normalized_access_rule_configs : item["resource_name"] => item
   }

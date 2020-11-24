@@ -13,9 +13,10 @@ Terraform module for provisioning cloudflare resources from configuration block(
 Terraform 0.12 or newer (to use `for` and `for_each`)
 
 ## Usage
-### Configure Cloudflare Access Rules (Note-1)
+### Configure Cloudflare Access Rules
 
 * `cloudflare_access_rule` only support /16 and /24 with `ip_range` target (Dont know why ?)
+
 ```hcl
 locals {
   access_rule_configs = {
@@ -83,11 +84,14 @@ module "cloudflare" {
 ```
 
 ### Configure Cloudflare Page Rules
+
+* The order of page_rule in the configuration will be the same as the order you see Cloudflare's UI
+* When adding/removing/re-ordering, this module will re-calculate new priority/order automatically.
+
 ```hcl
 locals {
   page_rule_configs = [
     {
-      priority = "35"
       target   = "https://m.abc.com/*"
       status   = "disabled"
       actions = {
@@ -98,7 +102,6 @@ locals {
       }
     },
     {
-      priority = "2"
       target   = "http://abc.com/*"
       actions = {
         always_use_https = "true"

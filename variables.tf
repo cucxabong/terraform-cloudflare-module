@@ -1,6 +1,7 @@
 variable "zone_name" {
   description = "Cloudflare Zone Name (Domain Name)"
   type        = string
+  default     = ""
 }
 
 variable "access_rule_configs" {
